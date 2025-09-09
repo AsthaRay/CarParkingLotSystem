@@ -16,5 +16,8 @@ public class ParkingLotFloors {
     private String floorNo;
     @OneToMany(mappedBy = "parkingFloor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParkingSpot> spots;
+    @ManyToOne
+    @JoinColumn(name = "parking_id")
+    private ParkingLot parkinglot;
 
 }

@@ -14,12 +14,21 @@ public class ParkingLotService {
     private ParkingLotRepo parkingLotRepo;
 
     public ParkingLotDto createParkingLot( ParkingLotDto parkingLotRequestDto){
+        if(parkingLotRequestDto.getName()==null || parkingLotRequestDto.getName().isEmpty()){
+            throw new RuntimeException("parkingLot name is mandatory");
+        }
         ParkingLot parkingLotEntity = ParkingLotDtoFormatter.toParkingLotEntity(parkingLotRequestDto);
         ParkingLot savedParkingLot = parkingLotRepo.save(parkingLotEntity);
         ParkingLotDto parkingLotResponseDto = ParkingLotDtoFormatter.toParkingLotDto(savedParkingLot);
-        if(parkingLotResponseDto.getName()==null || parkingLotResponseDto.getName().isEmpty()){
-            throw new RuntimeException("parkingLot name is mandatory");
-        }
+        return parkingLotResponseDto;
+    }
+
+    public ParkingLotDto assignContractor(Long id,ParkingLotDto parkingLotRequestDto){
+        ParkingLot parkingLotEntity = parkingLotRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("not Available"));
+        parkingLotEntity.setContractorName(parkingLotRequestDto.getContractorName());
+        ParkingLot savedParkingLot = parkingLotRepo.save(parkingLotEntity);
+        ParkingLotDto parkingLotResponseDto = ParkingLotDtoFormatter.toParkingLotDto(savedParkingLot);
         return parkingLotResponseDto;
     }
 

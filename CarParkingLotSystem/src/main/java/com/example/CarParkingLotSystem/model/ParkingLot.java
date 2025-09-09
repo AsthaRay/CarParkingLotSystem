@@ -1,10 +1,9 @@
 package com.example.CarParkingLotSystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -14,5 +13,8 @@ public class ParkingLot {
     private Long id;
     private String name;
     private String contractorName;
+
+    @OneToMany(mappedBy = "parkinglot", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ParkingLotFloors> floors;
 
 }
